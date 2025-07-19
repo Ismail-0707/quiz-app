@@ -1,0 +1,178 @@
+*
+{
+  margin : 0;
+  padding:0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.login-container
+{
+  background-color: #03232b;
+  padding:30px 40px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+
+}
+
+.login-container h2{
+  text-align: center;
+  margin-bottom: 10px;
+  color:#fff;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    height: 25px; /* This will increase the height */
+    padding: 10px;
+    background-color: #fff; /* Use white for input background */
+    border: 1px solid #ccc;
+    color: #000; /* Use black for text */
+    border-radius: 0px;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+
+.login-container input[type="password"]
+{
+  margin-top: 10px;
+}
+.login-container button {
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px; 
+}
+.login-container button:hover
+{
+  background-color: #0056b3;
+  cursor: pointer;
+}
+
+.login-container p
+{
+  margin-top: 15px;
+  color:#fff;
+}
+.login-container p a 
+{
+  color:#007bff;
+  text-decoration:none;
+}
+
+.login-container p a:hover
+{
+  text-decoration: underline;
+}
+
+.register-container
+{
+  background-color: #03232b;
+  padding:30px 40px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+}
+
+.register-container h2
+{
+  text-align: center;
+  margin-bottom: 10px;
+  color:#fff;
+}
+
+.register-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-container input[type="text"],
+.register-container input[type="password"]
+{
+     width: 100%;
+    height: 25px; /* This will increase the height */
+    padding: 10px;
+    background-color: #fff; /* Use white for input background */
+    border: 1px solid #ccc;
+    color: #000; /* Use black for text */
+    border-radius: 0px;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.register-container input[type="password"]
+{
+  margin-top: 10px;
+}
+
+.register-container input[type="text"]
+{
+  margin-top: 10px;
+}
+
+.register-container input[type="text"]
+{
+  margin-top: 10px;
+}
+
+.register-container button {
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px; 
+}
+
+.register-container button:hover
+{
+  background-color: #0056b3;
+  cursor: pointer;
+}
+
+.acc
+{
+  display: flex;
+  flex-direction: column;
+}
+
+#signin
+{
+  justify-content: center;
+  align-items: center;
+}
+
+#signin a{
+  text-decoration:none ;
+}
+#signin a:hover{
+    text-decoration: underline;
+}
+
+label
+{
+  font-size: 14px;
+  color:#69b2ea;
+}
