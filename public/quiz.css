@@ -1,0 +1,165 @@
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 60px auto;
+  background: #fff;
+  padding: 30px 40px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 12px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.question-text {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.options label {
+  display: block;
+  margin-bottom: 15px;
+  padding: 10px 12px;
+  background: #f1f1f1;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.options input[type="radio"] {
+  margin-right: 10px;
+}
+
+.options label:hover {
+  background: #e1e1e1;
+}
+
+.next-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.next-btn:hover {
+  background-color: #0052a3;
+}
+
+.result-box {
+  text-align: center;
+}
+
+.result-box h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.result-box p {
+  font-size: 1.1rem;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-top: 15px;
+  text-decoration: none;
+  color: white;
+  background-color: #28a745;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+.back-btn:hover {
+  background-color: #218838;
+}
+
+.navbar {
+  background-color: #003366;
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ffdd57;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav ul li {
+    margin: 10px 0;
+  }
+
+  nav {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  #scores-container {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  .score-card {
+    margin: 0 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .quiz-box, .welcome-box {
+    width: 95%;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  button, select {
+    width: 100%;
+  }
+}
+
+#timer {
+  color: #333;
+  margin-top: 15px;
+}
+

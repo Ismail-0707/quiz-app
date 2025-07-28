@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Scores</title>
+  <link rel="stylesheet" href="quiz.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ✅ Navbar Styling */
+    nav {
+      background-color: #003366;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+    }
+
+    nav h1 {
+      margin: 0;
+      font-size: 20px;
+      color:#fff;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav ul li a:hover {
+      text-decoration: none;
+      color: #ffdd57;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0 10px;
+    }
+
+    #scores-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+    }
+
+    .score-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .score-card:hover {
+      transform: scale(1.02);
+    }
+
+    .score-card h3 {
+      margin: 0 0 10px;
+      color: #003366;
+    }
+
+    .score-card p {
+      margin: 5px 0;
+    }
+
+    #message {
+      text-align: center;
+      font-weight: bold;
+      color: #555;
+      margin-top: 30px;
+    }
+
+    #category-filter {
+      padding: 6px 10px;
+      font-size: 16px;
+      margin-top: 5px;
+    }
+
+    .filter-section {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .back-home {
+      display: block;
+      text-align: center;
+      margin: 30px auto;
+      text-decoration: none;
+      background-color: #003366;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      width: max-content;
+    }
+
+    .back-home:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav ul li {
+    margin: 10px 0;
+  }
+
+  nav {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  #scores-container {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  .score-card {
+    margin: 0 10px;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Navbar -->
+  <nav>
+    <h1>Quiz App</h1>
+    <ul>
+      <li><a href="welcome.html">Home</a></li>
+      <li><a href="myscores.html">My Scores</a></li>
+      <li><a href="http://localhost:3000/auth/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- ✅ Heading -->
+  <h1>Your Quiz Scores</h1>
+
+  <!-- ✅ Filter Dropdown -->
+  <div class="filter-section">
+    <label for="category-filter"><strong>Filter by Category:</strong></label>
+    <select id="category-filter">
+      <option value="all">All</option>
+    </select>
+  </div>
+
+  <!-- ✅ Score Cards Container -->
+  <div id="scores-container"></div>
+  <div id="message"></div>
+
+  <!-- ✅ Back Button -->
+  <a class="back-home" href="welcome.html">⬅️ Back to Home</a>
+
+  <!-- ✅ Script -->
+  <script>
+    let allScores = [];
+
+    function renderScores(filteredScores) {
+      const container = document.getElementById('scores-container');
+      container.innerHTML = '';
+
+      const msg = document.getElementById('message');
+      msg.textContent = '';
+
+      if (filteredScores.length === 0) {
+        msg.textContent = 'No quiz attempts for selected category.';
+        return;
+      }
+
+      filteredScores.forEach(score => {
+        const card = document.createElement('div');
+        card.className = 'score-card';
+        card.innerHTML = `
+          <h3>${score.category.toUpperCase()}</h3>
+          <p><strong>Score:</strong> ${score.score} / ${score.total}</p>
+          <p><strong>Date:</strong> ${new Date(score.taken_at).toLocaleString()}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function populateDropdown(categories) {
+      const dropdown = document.getElementById('category-filter');
+      const uniqueCategories = [...new Set(categories)];
+
+      uniqueCategories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        dropdown.appendChild(opt);
+      });
+
+      dropdown.addEventListener('change', () => {
+        const selected = dropdown.value;
+        if (selected === 'all') {
+          renderScores(allScores);
+        } else {
+          const filtered = allScores.filter(score => score.category === selected);
+          renderScores(filtered);
+        }
+      });
+    }
+
+    // ✅ Fetch scores from backend
+    fetch('http://localhost:3000/myscores', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.length === 0) {
+          document.getElementById('message').textContent = 'No quiz attempts found.';
+          return;
+        }
+
+        allScores = data;
+        const categories = data.map(score => score.category);
+        populateDropdown(categories);
+        renderScores(data);
+      })
+      .catch(err => {
+        console.error('Error fetching scores:', err);
+        document.getElementById('message').textContent = 'Failed to load scores.';
+      });
+  </script>
+</body>
+</html>
+

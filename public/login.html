@@ -1,29 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
   <title>Login</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-      <div class="login-container">
-        <h2>Login</h2>
-        <form action="http://localhost:3000/auth/login" method="POST">
-          <input type="email" name="email" placeholder="Email" required />
-          <input type="password" id ="password" name="password" placeholder="Password" required />
+  <div class="marquee">
+  <p>Welcome Back to Quiz Application 🎉</p>
+</div>
 
-          <label style="display: block; margin-top: 10px;">
-            <input type="checkbox" id="togglePwd" onclick="togglePassword()" />
+<style>
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.marquee p {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scrollRight 30s linear infinite;
+  font-size: 18px;
+  color: #003366;
+  font-weight: bold;
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+</style>
+
+  <div class="card-container">
+    <div class="card">
+      <h2>Welcome Back</h2>
+      <h4>Sign in to your Account</h4>
+      <form id="loginForm">
+        <label for="email">Email</label>
+        <input type="email" name="email" placeholder="Enter Your Email" required/>
+
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Enter your Password"
+          required
+        />
+
+        <div class="forgot-row">
+          <label class="showpwd">
+            <input type="checkbox" onclick="togglePassword()" />
             Show Password
           </label>
+          <a href="forgot-password.html" class="forgot-password"
+            >Forgot password?</a
+          >
+        </div>
 
-          <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account ?
-        <a href="register.html">Sign up</a>
-        </p>
-      </div>
-<script src="login.js"></script>
+        <button type="submit" class="login-btn">Login</button>
+        <p id="errorMsg" style="color: red; margin-top: 10px;"></p>
+      </form>
+
+      <p class="register-link">
+        Don't have an account?
+        <a href="register.html">Register here.</a>
+      </p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>
+      &copy; 2025 All rights reserved. Designed by <span>Ismail</span>.
+    </p>
+  </footer>
+
+  <script>
+    // Toggle visibility of the password field
+    function togglePassword() {
+      const pwd = document.querySelector('input[name="password"]');
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+    }
+
+    // Use the absolute endpoint
+    const LOGIN_URL = 'http://localhost:3000/auth/login';
+
+    document
+      .getElementById('loginForm')
+      .addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const email = this.email.value.trim();
+        const password = this.password.value;
+        const errorMsg = document.getElementById('errorMsg');
+        errorMsg.textContent = ''; // clear prior errors
+
+        try {
+          const res = await fetch(LOGIN_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+
+          // Network succeeded but server returned an error status
+          if (!res.ok) {
+            let errData;
+            try {
+              errData = await res.json();
+            } catch {
+              // non-JSON response
+            }
+            errorMsg.textContent =
+              errData?.message ||
+              `Login failed with status ${res.status}`;
+            return;
+          }
+
+          // Parse JSON on successful response
+          const data = await res.json();
+          if (data.success) {
+            window.location.href = 'welcome.html';
+          } else {
+            errorMsg.textContent = data.message;
+          }
+        } catch (err) {
+          console.error('Login request error:', err);
+          errorMsg.textContent =
+            'Network error: please check your connection and try again.';
+        }
+      });
+  </script>
 </body>
 </html>

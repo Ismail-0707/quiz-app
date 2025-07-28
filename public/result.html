@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz Result</title>
+  <link rel="stylesheet" href="result.css" />
+</head>
+<body>
+  <div class="result-container">
+    <h1>Quiz Result</h1>
+    <div class="score-box">
+      <p id="category"></p>
+      <p id="score"></p>
+      <p id="percentage"></p>
+    </div>
+    <a href="/welcome.html" class="btn">Back to Categories</a>
+    
+  </div>
+
+  <script>
+    const resultData = JSON.parse(localStorage.getItem('quizResult'));
+    if (resultData) {
+      document.getElementById('category').textContent = `Category: ${resultData.category.toUpperCase()}`;
+      document.getElementById('score').textContent = `Score: ${resultData.score} / ${resultData.total}`;
+      document.getElementById('percentage').textContent = `Percentage: ${((resultData.score / resultData.total) * 100).toFixed(2)}%`;
+
+      fetch('/save-score', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include', // ✅ required for session to work
+    body: JSON.stringify({
+      category: resultData.category,
+      score: resultData.score,
+      total: resultData.total
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      console.log('Score saved successfully');
+    } else {
+      console.error('Failed to save score');
+    }
+  });
+
+    } 
+    else {
+      document.querySelector('.score-box').innerHTML = '<p>No result data found.</p>';
+    }
+  </script>
+</body>
+</html>
