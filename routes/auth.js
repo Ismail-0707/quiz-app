@@ -107,9 +107,7 @@ router.post('/login', (req, res) => {
         req.session.email = user.email;  // Store the user's email in the session
         req.session.fullname = user.fullname;           //store the user name
 
-        // Optional: Store more user details if needed for other parts of the app
-        // req.session.userId = user.id;
-        // req.session.fullname = user.fullname;
+        
 
         // Save the session to ensure changes are persisted before responding
         req.session.save((saveErr) => {
@@ -141,7 +139,7 @@ router.post('/forgot-password', (req, res) => {
             return res.status(404).send('❌ Email not found!'); // Use 404 for not found
         }
 
-        const resetLink = `http://localhost:3000/reset-password.html?token=${token}&email=${encodeURIComponent(email)}`;
+        const resetLink = `https://quiz-app-kca5.onrender.com/reset-password.html?token=${token}&email=${encodeURIComponent(email)}`;
 
         const mailOptions = {
             from: 'mahammadismail0707@gmail.com',
