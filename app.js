@@ -106,6 +106,9 @@ app.get('/api/user-info', (req, res) => {
   }
 });
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
 
 // Start server
 app.listen(PORT, () => {
